@@ -19,11 +19,23 @@ const App: React.FC = () => {
   }
 
   const toggleHendler = (id: number) => {
-    setTodos(prev => prev.map(todo => {
-      if(todo.id === id){todo.completed = !todo.completed}
+    setTodos(prev =>
+      prev.map(todo => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed: !todo.completed
+        }
+      }
       return todo
     }))
   }
+  // const toggleHendler = (id: number) => {
+  //   setTodos(prev => prev.map(todo => {
+  //     if(todo.id === id){todo.completed = !todo.completed}
+  //     return todo
+  //   }))
+  // }
   const removeHendler = (id: number) => {
     setTodos(prev => prev.filter(todo => todo.id !== id))
   }
