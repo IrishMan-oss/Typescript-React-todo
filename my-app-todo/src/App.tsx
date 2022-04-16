@@ -2,11 +2,20 @@ import './App.css';
 import Navbar from './components/Navbar'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import {ITodo} from './interfaces'
 
 const App: React.FC = () => {
   const[todos, setTodos] = useState<ITodo[]>([])
+
+useEffect(() => {
+  const saved = JSON.parse(localStorage.getItem('todos') || '[]') as ITodo[]
+  setTodos(saved)
+}, [])
+
+useEffect(() => {
+  localStorage.setItem('todos', JSON.stringify(todos))
+}, [todos])
 
   const addHandler = (title:string) => {
     const newTodo: ITodo = {
@@ -37,7 +46,8 @@ const App: React.FC = () => {
   //   }))
   // }
   const removeHendler = (id: number) => {
-    setTodos(prev => prev.filter(todo => todo.id !== id))
+    const shoudRemove = window.confirm('Вы уверены ,что хотите удалить элемент ?')
+  if(shoudRemove) { setTodos(prev => prev.filter(todo => todo.id !== id))}
   }
   return (
     <>
